@@ -1,0 +1,30 @@
+---
+  - hosts: webserver
+    become: true
+
+    tasks:
+      - name: update the apt-get
+        apt:
+          update_cache: yes
+
+      - name: Add an Apt signing key to a specific keyring file
+        ansible.builtin.apt_key:
+          url: https://ftp-master.debian.org/keys/archive-key-6.0.asc
+          keyring: /etc/apt/trusted.gpg.d
+    
+      - name: Install transport
+        apt:
+          name: "apt-transport-https"
+          state: present
+
+      - name: Adding APT repository
+        apt_repository:
+          repo: deb https://artifacts.elastic.co/packages/8.x/apt
+          dest: /etc/apt/sources.list.d/elastic-8.x.list
+          state: present
+
+      - name: Update repositories cache and install Logstash
+        apt:
+          name: logstash
+          update_cache: yes
+ 
