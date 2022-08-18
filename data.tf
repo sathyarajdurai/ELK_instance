@@ -91,5 +91,11 @@ data "aws_key_pair" "eu_key" {
   key_name = "talent-academy-lab"
   # key_pair_id = "key-08d8843f51fea4712"
   include_public_key = true
+}
 
+data "aws_security_group" "kib_sg" {
+  filter {
+    name   = "tag:name"
+    values = ["elk-security"]
+  }
 }

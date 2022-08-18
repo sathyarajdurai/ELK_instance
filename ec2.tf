@@ -21,7 +21,7 @@ module "kibana" {
   source ="./ec2-module"
   ami_id  = data.aws_ami.kibana_id.id
   inst_type = "t2.micro"
-  security_id = aws_security_group.elk_secruity.id
+  security_id = data.aws_security_group.kib_sg.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.public_sub.id
   avail_zone = "eu-west-1a" 
@@ -33,7 +33,7 @@ module "bastion" {
   source ="./ec2-module"
   inst_type = "t2.micro"
   ami_id  = data.aws_ami.ubuntu.id
-  security_id = aws_security_group.elk_secruity.id
+  security_id = data.aws_security_group.kib_sg.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.public_sub.id
   avail_zone = "eu-west-1a" 
@@ -55,7 +55,7 @@ module "elasticsearch" {
   source ="./ec2-module"
   ami_id  = data.aws_ami.elasticsearch_id.id
   inst_type = "t2.micro"
-  security_id = aws_security_group.elk_secruity.id
+  security_id = data.aws_security_group.kib_sg.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.mon_private_sub.id
   avail_zone = "eu-west-1a" 
@@ -67,7 +67,7 @@ module "logstach" {
   source ="./ec2-module"
   inst_type = "t2.micro"
   ami_id  = data.aws_ami.logstach_id.id
-  security_id = aws_security_group.elk_secruity.id
+  security_id = data.aws_security_group.kib_sg.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.mon_private_sub.id
   avail_zone = "eu-west-1a" 
@@ -78,7 +78,7 @@ module "demo" {
   source ="./ec2-module"
   ami_id  = data.aws_ami.ubuntu.id
   inst_type = "t2.micro"
-  security_id = aws_security_group.elk_secruity.id
+  security_id = data.aws_security_group.kib_sg.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.app_private_sub1a.id
   avail_zone = "eu-west-1a" 
@@ -90,7 +90,7 @@ module "demo1b" {
   source ="./ec2-module"
   inst_type = "t2.micro"
   ami_id  = data.aws_ami.ubuntu.id
-  security_id = aws_security_group.elk_secruity.id
+  security_id = data.aws_security_group.kib_sg.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.app_private_sub1b.id
   avail_zone = "eu-west-1b"
@@ -101,7 +101,7 @@ module "demo1c" {
   source ="./ec2-module"
   inst_type = "t2.micro"
   ami_id  = data.aws_ami.ubuntu.id
-  security_id = aws_security_group.elk_secruity.id
+  security_id = data.aws_security_group.kib_sg.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.app_private_sub1c.id
   avail_zone = "eu-west-1c"
