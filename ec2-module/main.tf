@@ -10,6 +10,7 @@ resource "aws_instance" "elk_server" {
   # subnet
   subnet_id = var.subnet_ids
   availability_zone = var.avail_zone
+  iam_instance_profile = var.instant_profile
 
   tags = {
     Name = var.ec2_name

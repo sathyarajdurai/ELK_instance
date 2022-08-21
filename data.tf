@@ -93,9 +93,9 @@ data "aws_key_pair" "eu_key" {
   include_public_key = true
 }
 
-data "aws_security_group" "kib_sg" {
+data "aws_security_group" "public_sg" {
   filter {
-    name   = "tag:name"
-    values = ["elk-security"]
+    name   = "tag:Name"
+    values = ["public-elk-security"]
   }
 }

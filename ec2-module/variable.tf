@@ -26,6 +26,10 @@ variable "avail_zone" {
   description  =  "The availability zone"
 }
 
+variable "instant_profile" {
+  description  =  "The instance profile"
+}
+
 # variable "is_public" {
 #   default = false
 #   description = "Subnet is public or private True or False"
