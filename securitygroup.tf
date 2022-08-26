@@ -54,6 +54,15 @@ resource "aws_security_group" "elastic_secruity" {
   }
 
   ingress {
+    description      = "Allow port 5601"
+    from_port        = 5601
+    to_port          = 5601
+    protocol         = "tcp"
+    #cidr_blocks      = [module.bastion.private_ip]
+    cidr_blocks      = ["0.0.0.0/0"] 
+  }
+
+  ingress {
     description      = "Allow port 9200"
     from_port        = 9200
     to_port          = 9200
@@ -91,9 +100,17 @@ resource "aws_security_group" "logstach_secruity" {
   }
 
   ingress {
-    description      = "Allow port 5000"
-    from_port        = 5000
-    to_port          = 5000
+    description      = "Allow port 9200"
+    from_port        = 9200
+    to_port          = 9200
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description      = "Allow port 5044"
+    from_port        = 5044
+    to_port          = 5044
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
   }
@@ -123,6 +140,33 @@ resource "aws_security_group" "demo_secruity" {
     protocol         = "tcp"
     security_groups  = [data.aws_security_group.public_sg.id]
   }
+
+  ingress {
+    description      = "Allow port 5601"
+    from_port        = 5601
+    to_port          = 5601
+    protocol         = "tcp"
+    #cidr_blocks      = [module.bastion.private_ip]
+    cidr_blocks      = ["0.0.0.0/0"] 
+  }
+
+
+  ingress {
+    description      = "Allow port 9200"
+    from_port        = 9200
+    to_port          = 9200
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description      = "Allow port 5044"
+    from_port        = 5044
+    to_port          = 5044
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
 
   egress {
     from_port        = 0

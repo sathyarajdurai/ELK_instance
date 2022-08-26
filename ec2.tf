@@ -20,7 +20,7 @@
 module "kibana" {
   source ="./ec2-module"
   ami_id  = data.aws_ami.kibana_id.id
-  inst_type = "m4.large"
+  inst_type = "t3.large"
   security_id = aws_security_group.kibana_secruity.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.public_sub.id
@@ -32,7 +32,7 @@ module "kibana" {
 
 module "bastion" {
   source ="./ec2-module"
-  inst_type = "m4.large"
+  inst_type = "t3.large"
   ami_id  = data.aws_ami.ubuntu.id
   security_id = data.aws_security_group.public_sg.id
   key_pair  = data.aws_key_pair.eu_key.key_name
@@ -56,7 +56,7 @@ resource "aws_eip" "bastion_eip" {
 module "elasticsearch" {
   source ="./ec2-module"
   ami_id  = data.aws_ami.elasticsearch_id.id
-  inst_type = "m4.large"
+  inst_type = "t3.large"
   security_id = aws_security_group.kibana_secruity.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.mon_private_sub.id
@@ -66,9 +66,10 @@ module "elasticsearch" {
    
 }
 
+
 module "logstach" {
   source ="./ec2-module"
-  inst_type = "m4.large"
+  inst_type = "t3.large"
   ami_id  = data.aws_ami.logstach_id.id
   security_id = aws_security_group.logstach_secruity.id
   key_pair  = data.aws_key_pair.eu_key.key_name
@@ -81,7 +82,7 @@ module "logstach" {
 module "demo1a" {
   source ="./ec2-module"
   ami_id  = data.aws_ami.ubuntu.id
-  inst_type = "m4.large"
+  inst_type = "t3.large"
   security_id = aws_security_group.demo_secruity.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.app_private_sub1a.id
@@ -93,7 +94,7 @@ module "demo1a" {
 
 module "demo1b" {
   source ="./ec2-module"
-  inst_type = "m4.large"
+  inst_type = "t3.large"
   ami_id  = data.aws_ami.ubuntu.id
   security_id = aws_security_group.demo_secruity.id
   key_pair  = data.aws_key_pair.eu_key.key_name
@@ -105,12 +106,48 @@ module "demo1b" {
 
 module "demo1c" {
   source ="./ec2-module"
-  inst_type = "m4.large"
+  inst_type = "t3.large"
   ami_id  = data.aws_ami.ubuntu.id
   security_id = aws_security_group.demo_secruity.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.app_private_sub1c.id
   instant_profile = aws_iam_instance_profile.ssm_profile.id
   avail_zone = "eu-west-1c"
+  ec2_name = "beats-server1b"
+}
+
+module "demo1b2" {
+  source ="./ec2-module"
+  inst_type = "t3.large"
+  ami_id  = data.aws_ami.ubuntu.id
+  security_id = aws_security_group.demo_secruity.id
+  key_pair  = data.aws_key_pair.eu_key.key_name
+  subnet_ids = data.aws_subnet.app_private_sub1c.id
+  instant_profile = aws_iam_instance_profile.ssm_profile.id
+  avail_zone = "eu-west-1b"
+  ec2_name = "beats-server1b"
+}
+
+module "demo1b3" {
+  source ="./ec2-module"
+  inst_type = "t3.large"
+  ami_id  = data.aws_ami.ubuntu.id
+  security_id = aws_security_group.demo_secruity.id
+  key_pair  = data.aws_key_pair.eu_key.key_name
+  subnet_ids = data.aws_subnet.app_private_sub1c.id
+  instant_profile = aws_iam_instance_profile.ssm_profile.id
+  avail_zone = "eu-west-1b"
+  ec2_name = "beats-server1b"
+}
+
+module "demo1b4" {
+  source ="./ec2-module"
+  inst_type = "t3.large"
+  ami_id  = data.aws_ami.ubuntu.id
+  security_id = aws_security_group.demo_secruity.id
+  key_pair  = data.aws_key_pair.eu_key.key_name
+  subnet_ids = data.aws_subnet.app_private_sub1c.id
+  instant_profile = aws_iam_instance_profile.ssm_profile.id
+  avail_zone = "eu-west-1b"
   ec2_name = "beats-server1b"
 }
