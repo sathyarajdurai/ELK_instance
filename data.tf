@@ -67,11 +67,11 @@ data "aws_ami" "kibana_id" {
   owners = ["151926427169"] # Canonical
 }
 
-data "aws_ami" "logstach_id" {
+data "aws_ami" "logstash_id" {
 
   filter {
     name   = "name"
-    values = ["logstach"]
+    values = ["logstash"]
   }
 
   owners = ["151926427169"] # Canonical
@@ -82,6 +82,16 @@ data "aws_ami" "elasticsearch_id" {
   filter {
     name   = "name"
     values = ["elasticsearch"]
+  }
+
+  owners = ["151926427169"] # Canonical
+}
+
+data "aws_ami" "filebeats_id" {
+
+  filter {
+    name   = "name"
+    values = ["filebeats"]
   }
 
   owners = ["151926427169"] # Canonical
