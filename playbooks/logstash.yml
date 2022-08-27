@@ -1,0 +1,28 @@
+---
+  - hosts: web
+    become: true
+
+    
+    tasks:
+      - name: update the apt-get
+        apt:
+          update_cache: yes
+
+      - name: copy conf file
+        copy:
+          src: "logstash.conf"
+          dest: /etc/logstash/conf.d/
+
+      - name: Enabling logstash service
+        systemd:
+          name: logstash
+          enabled: yes
+          daemon_reload: yes
+# Start Kibana service
+      - name: Starting logstash service
+        systemd:
+          name: logstash
+          state: started
+          
+      - name: Ensure logstash is running
+        systemd: state=started name=logstash

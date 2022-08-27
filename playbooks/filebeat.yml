@@ -1,0 +1,35 @@
+---
+  - hosts: web
+    become: true
+
+    
+    tasks:
+      - name: update the apt-get
+        apt:
+          update_cache: yes
+    
+      - name: copy conf file
+        copy:
+          src: "filebeat.yml"
+          dest: /etc/filebeat/filebeat.yml
+
+      - name: enable logstash module
+        shell:
+          cmd: filebeat modules enable logstash
+      
+      - name: Enabling filebeat service
+        systemd:
+          name: filebeat
+          enabled: yes
+          daemon_reload: yes
+# Start Kibana service
+      - name: Starting filebeat service
+        systemd:
+          name: filebeat
+          state: started
+          
+      - name: Ensure filebeat is running
+        systemd: state=started name=filebeat
+
+
+    

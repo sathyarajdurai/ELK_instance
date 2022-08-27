@@ -1,0 +1,55 @@
+---
+  - hosts: web1
+    become: true
+
+    tasks:
+      - name: update the apt-get
+        apt:
+          update_cache: yes
+  
+      - name: install java
+        apt:
+          name: default-jre
+      
+      # - name: Add an Apt signing key to a specific keyring file
+      #   apt_key:
+      #     url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+      #     #keyring: /usr/share/keyrings/elasticsearch-keyring.gpg
+          
+
+      # - name: Install transport
+      #   apt:
+      #     name: apt-transport-https
+      #     state: present
+
+      # - name: Adding Elastic APT repository
+      #   apt_repository:
+      #     repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+      #     state: present
+      #     filename: elastic-7.x
+      #     update_cache: yes
+
+      # - name: install kibana
+      #   apt:
+      #     name: kibana
+      #     state: present
+      #     update_cache: yes
+
+      - name: copy my kibana file
+        copy:
+          src: "kibana.yml"
+          dest: /etc/kibana/kibana.yml
+
+      - name: Enabling Kibana service
+        systemd:
+          name: kibana
+          enabled: yes
+          daemon_reload: yes
+# Start Kibana service
+      - name: Starting Kibana service
+        systemd:
+          name: kibana
+          state: started
+          
+      - name: Ensure Kibana is running
+        systemd: state=started name=kibana

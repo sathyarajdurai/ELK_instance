@@ -1,0 +1,27 @@
+[proxy]
+54.228.202.121
+
+
+#[web]
+#192.168.1.103
+
+#[web]
+#192.168.2.205
+
+#[web]
+#192.168.2.9
+
+#[web]
+#192.168.3.168
+
+[web]
+192.168.4.211
+
+[web]
+
+
+[web:vars]
+ansible_user=ubuntu
+ansible_ssh_port=22
+ansible_ssh_private_key_file=~/.ssh/talent-academy-lab.pem
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q ubuntu@54.228.202.121"'

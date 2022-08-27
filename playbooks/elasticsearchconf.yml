@@ -1,0 +1,94 @@
+---
+  - hosts: web
+    become: true
+
+    
+    tasks:
+      - name: update the apt-get
+        apt:
+          update_cache: yes
+  
+      # - name: install java
+      #   apt:
+      #     name: default-jre
+      
+      # - name: Add an Apt signing key to a specific keyring file
+      #   apt_key:
+      #     url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+      #     #keyring: /usr/share/keyrings/elasticsearch-keyring.gpg
+          
+
+      # - name: Install transport
+      #   apt:
+      #     name: apt-transport-https
+      #     state: present
+
+      # - name: Adding Elastic APT repository
+      #   apt_repository:
+      #     repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+      #     state: present
+      #     filename: elastic-7.x
+      #     update_cache: yes
+
+      # - name: install elasticsearch
+      #   apt:
+      #     name: elasticsearch
+      #     state: present
+      #     update_cache: yes
+      
+      # - name: display username and password
+      #   shell:
+      #     chdir:  /usr/share/elasticsearch
+      #     cmd:  bin/elasticsearch-setup-passwords auto|interactive
+      #     register: command_output
+        
+      # - debug:
+      #     var: command_output.stdout_lines  
+
+
+      - name: create ca
+        shell:
+          chdir:  /usr/share/elasticsearch
+          cmd: bin/elasticsearch-certutil ca --out elastic-stack-ca.p12 --pass ""
+          
+      - name: create cert
+        shell:
+          chdir:  /usr/share/elasticsearch
+          cmd: bin/elasticsearch-certutil cert --silent  --out elastic-certificates.p12 --pass "" elastic-stack-ca.p12
+
+      - name: copy to conf folder
+        shell:
+          cmd: cp /usr/share/elasticsearch/*.p12 /etc/elasticsearch
+
+      - name: change permission
+        shell:
+          cmd: chmod 644 /etc/elasticsearch/*.p12
+
+      # - name: keystore
+      #   shell:
+      #     cmd: bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password -f -x ""
+
+      # - name:  truststore
+      #   shell:  
+      #     chdir: /usr/share/elasticsearch
+      #     cmd: bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password -f -x ""
+
+
+      - name: copy my elasticsearch file
+        copy:
+          src: "elasticsearch.yml"
+          dest: /etc/elasticsearch/elasticsearch.yml
+
+      - name: Enabling elastic search service
+        systemd:
+          name: elasticsearch
+          enabled: yes
+          daemon_reload: yes
+# Start Kibana service
+      - name: Starting elastic search service
+        systemd:
+          name: elasticsearch
+          state: started
+          
+      - name: Ensure elastic serach is running
+        systemd: state=started name=elasticsearch
