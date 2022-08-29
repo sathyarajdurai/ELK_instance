@@ -1,5 +1,5 @@
 ---
-  - hosts: web1
+  - hosts: kibana
     become: true
 
     tasks:
