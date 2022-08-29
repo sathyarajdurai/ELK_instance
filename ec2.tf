@@ -56,7 +56,7 @@ resource "aws_eip" "bastion_eip" {
 module "elasticsearch" {
   source ="./ec2-module"
   ami_id  = data.aws_ami.elasticsearch_id.id
-  inst_type = "t2.micro"
+  inst_type = "t3.medium"
   security_id = aws_security_group.kibana_secruity.id
   key_pair  = data.aws_key_pair.eu_key.key_name
   subnet_ids = data.aws_subnet.mon_private_sub.id
@@ -69,7 +69,7 @@ module "elasticsearch" {
 
 module "logstash" {
   source ="./ec2-module"
-  inst_type = "t2.micro"
+  inst_type = "t3.medium"
   ami_id  = data.aws_ami.logstash_id.id
   security_id = aws_security_group.logstach_secruity.id
   key_pair  = data.aws_key_pair.eu_key.key_name

@@ -26,3 +26,8 @@
           
       - name: Ensure logstash is running
         systemd: state=started name=logstash
+      
+      - name: restart logstash
+        systemd:
+          name: logstash
+          state: restarted

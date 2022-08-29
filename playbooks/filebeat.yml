@@ -15,7 +15,15 @@
 
       - name: enable logstash module
         shell:
-          cmd: filebeat modules enable logstash
+          cmd: filebeat modules enable system
+
+      - name: setup piplines
+        shell:
+          cmd: sudo filebeat setup --pipelines --modules system
+      
+      # - name:
+      #   shell:
+      #     cmd: sudo filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["192.168.2.89:9200"]'
       
       - name: Enabling filebeat service
         systemd:
@@ -30,6 +38,11 @@
           
       - name: Ensure filebeat is running
         systemd: state=started name=filebeat
+
+      - name: restart filebeat
+        systemd:
+          name: filebeat
+          state: restarted
 
 
     

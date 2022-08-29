@@ -41,10 +41,6 @@
           src: "elasticsearch.yml"
           dest: /etc/elasticsearch/elasticsearch.yml
 
-      - name: elasticsearch user credentials
-        ansible.builtin.shell: bin/elasticsearch-setup-passwords auto --silent
-        register: contents
-
       - name: Enabling elastic search service
         systemd:
           name: elasticsearch
@@ -58,3 +54,9 @@
           
       - name: Ensure elastic serach is running
         systemd: state=started name=elasticsearch
+        
+      # - name: elasticsearch user credentials
+      #   shell: 
+      #     chdir:  /usr/share/elasticsearch/
+      #     cmd:  bin/elasticsearch-setup-passwords auto --silent
+      #   register: contents

@@ -2,7 +2,7 @@
 server.port: 5601
 # The default is 'localhost', which usually means remote machines will not be able to connect.
 # To allow connections from remote users, set this parameter to a non-loopback address.
-server.host: "192.168.1.103"
+server.host: "192.168.1.56"
 
 # Enables you to specify a path to mount Kibana at if you are running behind a proxy.
 # Use the `server.rewriteBasePath` setting to tell Kibana if it should remove the basePath
@@ -18,7 +18,7 @@ server.host: "192.168.1.103"
 
 # Specifies the public URL at which Kibana is available for end users. If
 # `server.basePath` is configured this URL should end with the same basePath.
-server.publicBaseUrl: "http://52.212.241.82"
+server.publicBaseUrl: "34.254.122.227"
 
 # The maximum payload size in bytes for incoming server requests.
 #server.maxPayload: 1048576
@@ -27,7 +27,7 @@ server.publicBaseUrl: "http://52.212.241.82"
 #server.name: "your-hostname"
 
 # The URLs of the Elasticsearch instances to use for all your queries.
-elasticsearch.hosts: ["http://192.168.2.205:9200"]
+elasticsearch.hosts: ["http://192.168.2.89:9200"]
 
 # Kibana uses an index in Elasticsearch to store saved searches, visualizations and
 # dashboards. Kibana creates a new index if the index doesn't already exist.
@@ -41,7 +41,7 @@ elasticsearch.hosts: ["http://192.168.2.205:9200"]
 # index at startup. Your Kibana users still need to authenticate with Elasticsearch, which
 # is proxied through the Kibana server.
 elasticsearch.username: "elastic"
-elasticsearch.password: "GFnLFLpQocG0igLSFcHQ"
+elasticsearch.password: "QXDh7Ee2G1UmwimSfocJ"
 
 # Kibana can also authenticate to Elasticsearch via "service account tokens".
 # If may use this token instead of a username/password.
