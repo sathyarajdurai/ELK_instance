@@ -1,0 +1,8 @@
+bastion_ip: "34.254.46.40"
+kibana_ip:  "192.168.1.56"
+kibana_pip: "34.254.122.227"
+elastic_ip: "192.168.2.71"
+logstash_ip: "192.168.2.25"
+
+eusername: "elastic"
+epassword: "elktalent"
