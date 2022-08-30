@@ -13,7 +13,28 @@
           src: "filebeat.yml"
           dest: /etc/filebeat/filebeat.yml
 
-      - name: enable logstash module
+      # - name:
+      #   lineinfile:
+      #     path: /etc/filebeat/filebeat.yml
+      #     search_string: 'paths'
+      #     inserafter: '\n location \n'
+      #     line: - /var/log/syslog
+
+      # - name:
+      #   lineinfile:
+      #     path: /etc/filebeat/filebeat.yml
+      #     search_string: 'paths'
+      #     inserafter: '\n location \n'
+      #     line: - /var/log/lastlog
+
+      # - name:
+      #   lineinfile:
+      #     path: /etc/filebeat/filebeat.yml
+      #     search_string: 'output.logstash'
+      #     inserafter: '\n location \n'
+      #     line: 'output.logstash : \n hosts: ["{{logstash_ip}}:5044"]'
+
+      - name: enable system module
         shell:
           cmd: filebeat modules enable system
 
@@ -21,16 +42,12 @@
         shell:
           cmd: sudo filebeat setup --pipelines --modules system
       
-      # - name:
-      #   shell:
-      #     cmd: sudo filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["192.168.2.89:9200"]'
-      
       - name: Enabling filebeat service
         systemd:
           name: filebeat
           enabled: yes
           daemon_reload: yes
-# Start Kibana service
+
       - name: Starting filebeat service
         systemd:
           name: filebeat

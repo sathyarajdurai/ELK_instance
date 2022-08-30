@@ -36,10 +36,81 @@
       #     cmd: bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password -f -x ""
 
 
-      - name: copy my elasticsearch file
-        copy:
-          src: "elasticsearch.yml"
-          dest: /etc/elasticsearch/elasticsearch.yml
+      # - name: copy my elasticsearch file
+      #   copy:
+      #     src: "elasticsearch.yml"
+      #     dest: /etc/elasticsearch/elasticsearch.yml
+
+      - name: cluster name
+        lineinfile: 
+          path: /etc/elasticsearch/elasticsearch.yml
+          regexp: 'cluster.name'
+          line:  'cluster.name: elk-stack'
+
+      - name: configure port
+        lineinfile: 
+          path: /etc/elasticsearch/elasticsearch.yml
+          regexp: 'http.port'
+          line:  'http.port: 9200'
+        
+      - name: node name
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          regexp: 'node.name'
+          line: 'node.name: elastic' 
+
+      - name: network host
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          regexp: 'network.host'
+          line: 'network.host: "{{elastic_ip}}"'
+
+      - name: discovery seed
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          search_string: 'host1'
+          line: 'discovery.seed_hosts: ["{{elastic_ip}}"]'
+
+      - name: cluster initial master node
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          search_string: 'node-1'
+          line: 'cluster.initial_master_nodes:  ["{{elastic_ip}}"]'   
+
+      - name: security
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          line: 'xpack.security.enabled: true'
+
+      - name: security
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          line: 'xpack.security.authc.api_key.enabled: true'
+
+      - name: security
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          line: 'xpack.security.transport.ssl.enabled: true'
+
+      - name: security
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          line: 'xpack.security.transport.ssl.verification_mode: certificate'
+
+      - name: security
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          line: 'xpack.security.transport.ssl.client_authentication: required'
+
+      - name: security
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          line: 'xpack.security.transport.ssl.keystore.path: elastic-certificates.p12'
+
+      - name: security
+        lineinfile:
+          path: /etc/elasticsearch/elasticsearch.yml
+          line: 'xpack.security.transport.ssl.truststore.path: elastic-certificates.p12'
 
       - name: Enabling elastic search service
         systemd:
@@ -52,11 +123,14 @@
           name: elasticsearch
           state: started
           
-      - name: Ensure elastic serach is running
+      - name: Ensure elastic search is running
         systemd: state=started name=elasticsearch
+
+      - name: Ensure elastic search is restarted
+        systemd: state=restarted name=elasticsearch
         
-      # - name: elasticsearch user credentials
-      #   shell: 
-      #     chdir:  /usr/share/elasticsearch/
-      #     cmd:  bin/elasticsearch-setup-passwords auto --silent
-      #   register: contents
+#       - name: elasticsearch user credentials
+#         shell: 
+#           chdir:  /usr/share/elasticsearch/
+#           cmd:  bin/elasticsearch-reset-password -u elastic -p elktalent 
+#       #   register: contents

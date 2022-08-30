@@ -7,10 +7,47 @@
         apt:
           update_cache: yes
 
-      - name: copy my kibana file
-        copy:
-          src: "kibana.yml"
-          dest: /etc/kibana/kibana.yml
+      # - name: copy my kibana file
+      #   copy:
+      #     src: "kibana.yml"
+      #     dest: /etc/kibana/kibana.yml
+      
+      - name: configure port
+        lineinfile: 
+          path: /etc/kibana/kibana.yml
+          regexp: 'server.port'
+          line:  'server.port: 5601'
+
+      - name: server host
+        lineinfile: 
+          path: /etc/kibana/kibana.yml
+          regexp: 'server.host'
+          line: 'server.host: "{{kibana_ip}}"'
+      
+      - name: server host
+        lineinfile: 
+          path: /etc/kibana/kibana.yml
+          regexp: 'server.publicBaseUrl'
+          line: 'server.publicBaseUrl: "{{kibana_ip}}"'
+
+      - name: server host
+        lineinfile: 
+          path: /etc/kibana/kibana.yml
+          regexp: 'elasticsearch.hosts'
+          line: 'elasticsearch.hosts: ["http://{{elastic_ip}}:9200"]'
+      
+      - name: server host
+        lineinfile: 
+          path: /etc/kibana/kibana.yml
+          regexp: 'elasticsearch.username'
+          line: 'elasticsearch.username: "{{eusername}}"'
+
+      - name: server host
+        lineinfile: 
+          path: /etc/kibana/kibana.yml
+          regexp: 'elasticsearch.password'
+          line: 'elasticsearch.password: "{{epassword}}"'
+
 
       - name: Enabling Kibana service
         systemd:
